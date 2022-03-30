@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function createBoard(grid, squares) { // grid: userGrid or computerGrid; squares is an empty array
     for (let i = 0; i < width*width; i++) {
-      const square = document.createElement('div')
-      square.classList.add('square')
-      square.dataset.id = i
-      grid.appendChild(square)
-      squares.push(square)
+      const coord = document.createElement('div') //the offical name for the squares is co-ordinates, so i chose to change these to coord.
+      coord.classList.add('square') //left this name alone because i didn't want to mess things up.
+      coord.dataset.id = i
+      grid.appendChild(coord)
+      squares.push(coord)
     }
   }
 
