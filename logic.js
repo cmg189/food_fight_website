@@ -117,49 +117,64 @@ document.addEventListener('DOMContentLoaded', () => {
       current.forEach(index => userSquares[randomStart + index].classList.add('taken', food.name))
       current.forEach(index => userSquares[randomStart + index].classList.remove('square'))
 
-      if (food.name === "bread" && direction === 10)
+      if (food.name === "bread")
       {
-        userSquares[randomStart].classList.add('bread-vertical', 'square')
+        if(direction === 10)
+        {
+          userSquares[randomStart].classList.add('bread-vertical', 'square')
+        }
+        if(direction === 1)
+        {
+          userSquares[randomStart].classList.add('bread-horizontal', 'square')
+        }
       }
-      if (food.name === "bread" && direction === 1)
+      
+      if (food.name === "pocky")
       {
-        userSquares[randomStart].classList.add('bread-horizontal', 'square')
-      }
-
-      if (food.name === "pocky" && direction === 10)
-      {
-        userSquares[randomStart].classList.add('pocky-vertical', 'square')
-      }
-      if (food.name === "pocky" && direction === 1)
-      {
-        userSquares[randomStart].classList.add('pocky-horizontal', 'square')
-      }
-
-      if (food.name === "bento" && direction === 10)
-      {
-        userSquares[randomStart].classList.add('bento-vertical', 'square')
-      }
-      if (food.name === "bento" && direction === 1)
-      {
-        userSquares[randomStart].classList.add('bento-horizontal', 'square')
+        if(direction === 10)
+        {
+          userSquares[randomStart].classList.add('pocky-vertical', 'square')
+        }
+        if direction === 1)
+        {
+          userSquares[randomStart].classList.add('pocky-horizontal', 'square')
+        }
       }
 
-      if (food.name === "donut" && direction === 10)
+      if (food.name === "bento")
       {
-        userSquares[randomStart].classList.add('donut-vertical', 'square')
+        if(direction === 10)
+        {
+          userSquares[randomStart].classList.add('bento-vertical', 'square')
+        }
+        if(direction === 1)
+        {
+          userSquares[randomStart].classList.add('bento-horizontal', 'square')
+        }
       }
-      if (food.name === "donut" && direction === 1)
+      
+      if (food.name === "donut")
       {
-        userSquares[randomStart].classList.add('donut-horizontal', 'square')
+        if(direction === 10)
+        {
+          userSquares[randomStart].classList.add('donut-vertical', 'square')
+        }
+        if(direction === 1)
+        {
+          userSquares[randomStart].classList.add('donut-horizontal', 'square')
+        }
       }
-
-      if (food.name === "pizza" && direction === 10)
+      
+      if (food.name === "pizza")
       {
-        userSquares[randomStart].classList.add('pizza-vertical', 'square')
-      }
-      if (food.name === "pizza" && direction === 1)
-      {
-        userSquares[randomStart].classList.add('pizza-horizontal', 'square')
+        if(direction === 10)
+        {
+          userSquares[randomStart].classList.add('pizza-vertical', 'square')
+        }
+        if(direction === 1)
+        {
+          userSquares[randomStart].classList.add('pizza-horizontal', 'square')
+        }
       }
     }
 
