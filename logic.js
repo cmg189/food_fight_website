@@ -207,28 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     hide.remove() // remove the "HIDE YOUR FOOD" text
-	//If you impliment this stuff, you may wish to change 'turn' to some other variable, either here or in gameLogic, as I used the turn var in gameLogic before noticing it was used here. -NoVA
-	//Oh and you'll need to make it stay on the AI's turn so it doesn't just quickly flash and return to player. That's a one-way trip to seizure vile.
-    //turn = document.createElement("b")
-    //turn.innerText = "YOUR TURN"
-    //instruction.append(turn)
 
 		// display images for turn status
 		bot.style.opacity = "1"
 		you.style.opacity = "1"
-
-		// Here are the methods to change the images according to whose turn it is
-		//
-		// place these lines when its your turn
-		//document.getElementById('bot_img').src="images/bot.png"
-		//document.getElementById('you_img').src="images/your_turn.png"
-		//
-		// place theses lines when its computers turn
-		//document.getElementById('bot_img').src="images/bot_turn.png"
-		//document.getElementById('you_img').src="images/you.png"
-
-
-
 
     gameLogic()
   })
@@ -280,46 +262,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function gameLogic()
+	function gameLogic()
   {
-	  //If it ends with a semicolon, I probably wrote it. -NoVA
-    // Loop for the game until someone score 25. It naturally loops so just if userScore < 25 && computerScore < 25.
-	//the turn change won't work without the recursive call.
+		//console.log("top:", turn);
+
 	if(userScore < 25 && botScore < 25){
+
 		if(turn === 'user'){
+			//console.log("in user");
 			computerSquares.forEach(cell => cell.addEventListener('click', () => {
+				//console.log("CLICK");
+				document.getElementById('bot_img').src="images/bot_turn.png"
+				document.getElementById('you_img').src="images/you.png"
+
 				shotFired = cell.dataset.id
-				//do { //This do-while freezes the webpage. Do not use.
-					if (cell.classList.contains('taken') && !cell.classList.contains('hit') && !cell.classList.contains('miss')) //the 'and not miss' here is redundant as this only hits if its taken, and misses are on non-taken
+					if (cell.classList.contains('taken') && !cell.classList.contains('hit') && !cell.classList.contains('miss'))
 					{
+						// exe when a hit
+						document.getElementById('bot_img').src="images/bot.png"
+						document.getElementById('you_img').src="images/your_turn.png"
+
 						cell.classList.add('hit')
 						userScore = userScore + 1;
 					}
-					else if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) { //the not hit here is not redundant; the hit could be overwritten otherwise.
+					else if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
+						// exe when miss
+						document.getElementById('bot_img').src="images/bot_turn.png"
+						document.getElementById('you_img').src="images/you.png"
 						cell.classList.add('miss')
-					} //had to edit these so that the player doesn't double up. Need to figure out how to get it to not go to bot if you double up, though. may a while.-NoVA
-				//}while(cell.classList.contains('hit') || cell.classList.contains('miss')); //do while to make sure that player hitting an already hit one does not double up.
+					}
+				//console.log("end of user");
 				turn = 'bot';
-				//console.log(userScore);
-				//console.log(turn);
-				//This recursive call is REQUIRED* to get to the bot turn. I don't know why, but without this it just didn't work that I could find. -NoVA
-				gameLogic(); //probably why player gets an extra turn. though, that implies that it is going past this without it.
+
+				gameLogic(); //This recursive call is REQUIRED* to get to the bot turn
+
 			}))
-			//console.log(userScore);
 		}
 		if(turn === 'bot') //maybe should be an else if? I don't think so, though.
 		{
-			//bot chooses a target at random that is on the board.
-			var zone;
+			//console.log("in bot");
+			var zone;  //bot chooses a target at random that is on the board.
 			//do while loop to make sure that cpu doesn't attack a target it already hit. does NOT check if inbounds or not.
 			do {
 				zone = Math.floor( Math.random() * userSquares.length); //zone is the cpu's target.
 			}
 			while(userSquares[zone].classList.contains('hit') || userSquares[zone].classList.contains('miss'));
-			console.log(zone);
-			//zone = 20; //for the sake of testing.
-			if(userSquares[zone].classList.contains('taken')) //if the cell/zone/spot is taken, make it hit.
+
+			if(userSquares[zone].classList.contains('taken'))
 			{
+				//if the cell/zone/spot is taken, make it hit.
 				userSquares[zone].classList.add('hit');
 				botScore = botScore + 1;
 			}
@@ -327,24 +318,22 @@ document.addEventListener('DOMContentLoaded', () => {
 				userSquares[zone].classList.add('miss');
 			}
 			//Possibly need to Check if its in bounds? Seems like it can't even go out of bounds.
-			//console.log(botScore);
 			turn = 'user';
+			//console.log("end of bot");
 		}
 	} //if game is on (both scores < 25)
-	//userScore > botScore because in my testing, the user got one more move before this was checked. Need to figure out why. -NoVA
-	else if (userScore >= 25 && userScore > botScore) { //user wins
-		winMsg(); //Need to find an alternate way.
+	else if (userScore >= 25 && userScore > botScore) {
+		winMsg();  //user wins
 	}
-	else if (botScore >= 25) { //computer wins
-		loseMsg();
+	else if (botScore >= 25) {
+		loseMsg(); //computer wins
 	}
 	else {
 		//Error.
 	}
-	//need to add the logic for the computer attacking player. Above is user attacking computer. -NoVA, reminder to self
-	//Also need to add points, and turn changing. Or at least the images changing, idk. -NoVA, reminder to self.
-  }
-  
+
+}// gamelogic()
+
   // Get the modal
   var modal = document.getElementById("myModal");
 
@@ -367,10 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //loseBtn.onclick = function() {
-  function loseMsg() { 
+  function loseMsg() {
     modal.style.display = "block";
     message.innerText = "YOU LOST";
     box.classList.add('losing');
   }
-	
+
 })
